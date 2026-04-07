@@ -55,8 +55,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->meta('icon') ?>
 
 
+  <?php
+    //<?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']) ?>
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']) ?>
+
+    <script src="https://cdn.tailwindcss.com"></script>
 
 
 
@@ -70,59 +73,75 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
 <body>
 
-    <nav class="top-nav">
+	<nav class="bg-white shadow-sm border-b border-gray-200">
+	    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex justify-between items-center h-16">
+		    
+		    <?php 
+		        $identity = $this->request->getAttribute('identity'); 
+		        $esAdmin = ($identity && $identity->get('role_id') === 1);
+		    ?>
 
-        <div class="top-nav-title">
+		    <div class="flex items-center space-x-8">
+		        
+		        <div class="flex-shrink-0">
+		            <a href="<?= $this->Url->build('/') ?>" class="text-2xl font-extrabold tracking-tight">
+		                <span class="text-red-600">Cake</span><span class="text-gray-800">PHP</span>
+		            </a>
+		        </div>
 
-            <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
+		        <?php if ($identity && $esAdmin) : ?>
+		            <div class="hidden sm:flex space-x-6">
+		                <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>" 
+		                   class="text-gray-600 hover:text-blue-600 text-sm font-medium transition-colors">
+		                    Users
+		                </a>
+		                <a href="<?= $this->Url->build(['controller' => 'Documents', 'action' => 'index']) ?>" 
+		                   class="text-gray-600 hover:text-blue-600 text-sm font-medium transition-colors">
+		                    Documents
+		                </a>
+		            </div>
+		        <?php endif; ?>
 
-        </div>
+		    </div>
 
-        <div class="top-nav-links">
-           <?php 
-                
-                $identity = $this->request->getAttribute('identity'); 
-                
-                $esAdmin = ($identity && $identity->get('role_id') === 1);
-            ?>
+		    <div class="flex items-center space-x-2 sm:space-x-4">
+		        
+		        <?php if ($identity) : ?>
+		            
+		            <span class="mx-2 sm:mx-4 font-bold text-gray-700 text-sm">
+		                <?= h($identity->get('correo')) ?>
+		            </span>
+		            
+		            <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout']) ?>" 
+		               class="text-red-600 hover:text-red-800 hover:bg-red-50 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+		                Cerrar Sesión
+		            </a>
+		            
+		        <?php else : ?>
+		            
+		            <a target="_blank" rel="noopener" href="https://book.cakephp.org/5/" 
+		               class="text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+		                Documentation
+		            </a>
+		            <a target="_blank" rel="noopener" href="https://api.cakephp.org/" 
+		               class="text-gray-600 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+		                API
+		            </a>
+		            
+		        <?php endif; ?>
+		    </div>
 
-            <?php if ($identity) : ?>
-                
-                <?php if ($esAdmin) : ?>
-                    <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index']) ?>" class="button float-center" style="color: white;">Users</a>
-    		    <a href="<?= $this->Url->build(['controller' => 'Documents', 'action' => 'index']) ?>" class="button float-center" style="color: white;">Documents</a>
+		</div>
+	    </div>
+	</nav>
 
-                <?php endif; ?>
-
-                <span style="margin-right: 15px; margin-left: 15px; font-weight: bold;">
-                    <?= h($identity->get('correo')) ?>
-                </span>
-                <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout']) ?>" style="color: #d33c43;">
-                    Cerrar Sesión
-                </a>
-                
-            <?php else : ?>
-                
-                <a target="_blank" rel="noopener" href="https://book.cakephp.org/5/">Documentation</a>
-                <a target="_blank" rel="noopener" href="https://api.cakephp.org/">API</a>
-                 
-                
-            <?php endif; ?>
-        </div>
-
-    </nav>
-
-    <main class="main">
-
-        <div class="container">
-
-            <?= $this->Flash->render() ?>
-
-            <?= $this->fetch('content') ?>
-
-        </div>
-
-    </main>
+	<main class="py-8 w-full">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		    <?= $this->Flash->render() ?>
+		    <?= $this->fetch('content') ?>
+		</div>
+	    </main>
 
     <footer>
 

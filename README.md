@@ -8,7 +8,7 @@ Este proyecto es un sistema web desarrollado en el framework CakePHP 5 diseñado
 * **Control de Roles (RBAC):** * **Administrador:** Acceso total al CRUD de usuarios, roles y todos los documentos del sistema.
   * **Usuario Normal:** Interfaz restringida para  visualizar únicamente sus propios documentos (vera su documento que escaneo el que recepciono su documento), sin permisos de edición o eliminación para mantener la integridad del historial.
 * **Gestión de Archivos Físicos:** Subida de documentos con renombramiento automático (timestamps) para evitar colisiones en el servidor.
-* **Estados de Flujo:** Seguimiento del ciclo de vida del documento (Recibido, Recepcionado, Revisión, Aprobado, Devuelto).
+* **Estados de Flujo:** Seguimiento del ciclo de vida del documento (Recepcionado, Revisión, Aprobado, Rechazado).
 
 ## Tecnologías Utilizadas
 * **Framework:** CakePHP 5.x (Patrón MVC)

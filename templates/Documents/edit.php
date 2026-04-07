@@ -5,48 +5,108 @@
  * @var string[]|\Cake\Collection\CollectionInterface $users
  */
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $document->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $document->id), 'class' => 'side-nav-item']
+
+<div class="max-w-3xl mx-auto mt-8 mb-12 px-4 sm:px-6 lg:px-8">
+    
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        
+        <h3 class="text-2xl font-bold text-gray-800"><?= __('Edit Document') ?></h3>
+        
+        <div class="flex flex-wrap gap-2 sm:gap-3">
+            <?= $this->Html->link(
+                '<svg class="w-4 h-4 mr-1.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>' . __('List Documents'), 
+                ['action' => 'index'], 
+                ['escape' => false, 'class' => 'inline-flex items-center bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium py-2 px-4 rounded-md transition-colors']
             ) ?>
-            <?= $this->Html->link(__('List Documents'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
+            
+            <?= $this->Form->postLink(
+                '<svg class="w-4 h-4 mr-1.5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>' . __('Delete'),
+                ['action' => 'delete', $document->id],
+                [
+                    'escape' => false, 
+                    'confirm' => __('Are you sure you want to delete # {0}?', $document->id), 
+                    'class' => 'inline-flex items-center bg-red-600 hover:bg-red-700 text-white border border-red-200 text-sm font-medium py-2 px-4 rounded-md transition-colors'
+                ]
+            ) ?>
         </div>
-    </aside>
-    <div class="column column-80">
-        <div class="documents form content">
-            <?= $this->Form->create($document, ['type' => 'file']) ?>
-            <fieldset>
-                <legend><?= __('Edit Document') ?></legend>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8 w-full">
+        
+        <?= $this->Form->create($document, ['type' => 'file', 'class' => 'space-y-6']) ?>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <?php
-                    echo $this->Form->control('user_id', ['options' => $users]);
-                    echo $this->Form->control('titulo');
-		    echo $this->Form->control('tipo', [
-			    'type' => 'select',
-			    'options' => [
-				'Carnet de Identidad' => 'Carnet de Identidad',
-				'Certificado Académico' => 'Certificado Académico',
-				'Título Universitario' => 'Título Universitario',
-				'Currículum Vitae' => 'Currículum Vitae',
-				'Otro' => 'Otro'
-			    ],
-			    'empty' => 'Seleccione un tipo...' // Muestra un texto por defecto
-			]);
-                    echo $this->Form->control('fecha_emision');
-                    echo $this->Form->control('entidad_emisora');
-                    echo $this->Form->control('archivo_url', [
-		    'type' => 'file',
-		    'label' => 'Subir nuevo archivo (Dejar en blanco para mantener el actual)'
-			]);
-                    echo $this->Form->control('estado');
+                    // Variables para mantener los estilos consistentes
+                    $inputClasses = 'w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all hover:bg-white';
+                    $labelClasses = 'block text-sm font-semibold text-gray-700';
+
+                    echo $this->Form->control('user_id', [
+                        'options' => $users,
+                        'class' => $inputClasses,
+                        'label' => ['class' => $labelClasses]
+                    ]);
+
+                    echo $this->Form->control('titulo', [
+                        'class' => $inputClasses,
+                        'label' => ['class' => $labelClasses]
+                    ]);
+
+                    echo $this->Form->control('tipo', [
+                        'type' => 'select',
+                        'options' => [
+                            'Carnet de Identidad' => 'Carnet de Identidad',
+                            'Certificado Académico' => 'Certificado Académico',
+                            'Título Universitario' => 'Título Universitario',
+                            'Currículum Vitae' => 'Currículum Vitae',
+                            'Otro' => 'Otro'
+                        ],
+                        'empty' => 'Seleccione un tipo...',
+                        'class' => $inputClasses,
+                        'label' => ['class' => $labelClasses]
+                    ]);
+
+                    echo $this->Form->control('estado', [
+                        'type' => 'select',
+                        'options' => [
+                            'Recibido' => 'Recibido',
+                            'Revision' => 'Revision',
+                            'Aprobado' => 'Aprobado',
+                            'Rechazado' => 'Rechazado',
+                        ],
+                        'empty' => 'Seleccione un Estado...',
+                        'class' => $inputClasses,
+                        'label' => ['class' => $labelClasses]
+                    ]);
+
+                    echo $this->Form->control('fecha_emision', [
+                        'class' => $inputClasses,
+                        'label' => ['class' => $labelClasses]
+                    ]);
+
+                    echo $this->Form->control('entidad_emisora', [
+                        'class' => $inputClasses,
+                        'label' => ['class' => $labelClasses]
+                    ]);
                 ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
-        </div>
+            </div>
+
+            <div class="mt-8 border-t border-gray-100 pt-6">
+                <?php 
+                    echo $this->Form->control('archivo_url', [
+                        'type' => 'file', 
+                        'label' => ['text' => 'Subir nuevo archivo (Dejar en blanco para mantener el actual)', 'class' => $labelClasses . ' mb-2'],
+                        'class' => 'w-full mt-1 text-sm text-gray-600 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all cursor-pointer'
+                    ]);
+                ?>
+            </div>
+
+            <div class="mt-8 flex justify-end">
+                <?= $this->Form->button(__('Edit'), [
+                    'class' => 'w-full sm:w-auto bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2.5 px-8 rounded-lg transition-colors shadow-sm'
+                ]) ?>
+            </div>
+
+        <?= $this->Form->end() ?>
     </div>
 </div>
